@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BotLi Web Interface</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>"> <!-- Basic Robot Favicon -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="fas fa-robot me-2"></i>BotLi Control Panel</a>
+            <div class="d-flex align-items-center ms-auto">
+                <span class="navbar-text me-3" id="username-display">User: N/A</span>
+                <span class="navbar-text me-3" id="bot-status">
+                    Bot: <span class="badge bg-secondary">Unknown</span>
+                </span>
+                <span class="navbar-text me-3" id="matchmaking-status">
+                    Matchmaking: <span class="badge bg-secondary">Off</span>
+                </span>
+                <span class="navbar-text" id="connection-status">
+                    Server: <span class="badge bg-warning">Connecting...</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- Control Panel Column -->
+            <div class="col-lg-5 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white"><i class="fas fa-gamepad me-2"></i>Actions</div>
+                    <div class="card-body">
+                        <!-- Challenge Form -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-chess-knight me-2"></i>Challenge Player</h5>
+                                <form id="challenge-form">
+                                    <div class="row g-2">
+                                        <div class="col-md-6">
+                                            <label for="challenge-username" class="form-label visually-hidden">Username</label>
+                                            <input type="text" class="form-control form-control-sm" id="challenge-username" placeholder="Username" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                             <label for="challenge-timecontrol" class="form-label visually-hidden">Time Control</label>
+                                            <input type="text" class="form-control form-control-sm" id="challenge-timecontrol" placeholder="Time (e.g., 5+3)" value="1+1" pattern="\d+(\.\d+)?\+\d+" title="Format: Minutes+Increment (e.g., 3+2, 0.5+0)">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="challenge-color" class="form-label visually-hidden">Color</label>
+                                            <select class="form-select form-select-sm" id="challenge-color" title="Challenge Color">
+                                                <option value="random" selected>Random Color</option>
+                                                <option value="white">White</option>
+                                                <option value="black">Black</option>
+                                            </select>
+                                        </div>
+                                         <div class="col-md-4">
+                                             <label for="challenge-rated" class="form-label visually-hidden">Rated</label>
+                                            <select class="form-select form-select-sm" id="challenge-rated" title="Rated Game">
+                                                <option value="true" selected>Rated</option>
+                                                <option value="false">Unrated</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="challenge-variant" class="form-label visually-hidden">Variant</label>
+                                            <select class="form-select form-select-sm" id="challenge-variant" title="Game Variant">
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="chess960">Chess960</option>
+                                                <option value="crazyhouse">Crazyhouse</option>
+                                                <option value="antichess">Antichess</option>
+                                                <option value="atomic">Atomic</option>
+                                                <option value="horde">Horde</option>
+                                                <option value="kingOfTheHill">KingOfTheHill</option>
+                                                <option value="racingKings">RacingKings</option>
+                                                <option value="threeCheck">ThreeCheck</option>
+                                                <!-- Add other variants if supported by your BotLi version -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-primary btn-sm me-2"><i class="fas fa-paper-plane me-1"></i> Send Challenge</button>
+                                        <button type="button" id="rechallenge-btn" class="btn btn-secondary btn-sm"><i class="fas fa-redo me-1"></i> Rechallenge Last</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> <!-- End Challenge Card -->
+
+                        <!-- Create Game Pair Form -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-plus-square me-2"></i>Create Game Pairs</h5>
+                                <form id="create-form">
+                                     <div class="row g-2">
+                                        <div class="col-md-3">
+                                             <label for="create-count" class="form-label visually-hidden">Count</label>
+                                             <input type="number" class="form-control form-control-sm" id="create-count" placeholder="Pairs" value="1" min="1" required title="Number of pairs (bot plays white & black)">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label for="create-username" class="form-label visually-hidden">Username</label>
+                                            <input type="text" class="form-control form-control-sm" id="create-username" placeholder="Username" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="create-timecontrol" class="form-label visually-hidden">Time Control</label>
+                                            <input type="text" class="form-control form-control-sm" id="create-timecontrol" placeholder="Time (e.g., 1+0)" value="1+1" pattern="\d+(\.\d+)?\+\d+" title="Format: Minutes+Increment (e.g., 3+2, 0.5+0)">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="create-rated" class="form-label visually-hidden">Rated</label>
+                                            <select class="form-select form-select-sm" id="create-rated" title="Rated Game">
+                                                <option value="true" selected>Rated</option>
+                                                <option value="false">Unrated</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="create-variant" class="form-label visually-hidden">Variant</label>
+                                            <select class="form-select form-select-sm" id="create-variant" title="Game Variant">
+                                                <option value="standard" selected>Standard</option>
+                                                <option value="chess960">Chess960</option>
+                                                <option value="crazyhouse">Crazyhouse</option>
+                                                <option value="antichess">Antichess</option>
+                                                <option value="atomic">Atomic</option>
+                                                <option value="horde">Horde</option>
+                                                <option value="kingOfTheHill">KingOfTheHill</option>
+                                                <option value="racingKings">RacingKings</option>
+                                                <option value="threeCheck">ThreeCheck</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-info btn-sm mt-2"><i class="fas fa-layer-group me-1"></i> Create Pairs</button>
+                                </form>
+                            </div>
+                        </div> <!-- End Create Pairs Card -->
+
+                        <!-- Matchmaking Controls -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-search me-2"></i>Matchmaking</h5>
+                                <button id="start-matchmaking-btn" class="btn btn-success btn-sm me-2"><i class="fas fa-play-circle me-1"></i> Start</button>
+                                <button id="stop-matchmaking-btn" class="btn btn-warning btn-sm"><i class="fas fa-stop-circle me-1"></i> Stop</button>
+                                <form id="reset-matchmaking-form" class="mt-2 d-inline-block align-top">
+                                    <div class="input-group input-group-sm">
+                                        <label for="reset-perf-type" class="input-group-text">Reset:</label>
+                                        <select class="form-select form-select-sm" id="reset-perf-type" required title="Select Perf Type to Reset">
+                                            <option value="" disabled selected>Perf Type...</option>
+                                            <option value="bullet">Bullet</option>
+                                            <option value="blitz">Blitz</option>
+                                            <option value="rapid">Rapid</option>
+                                            <option value="classical">Classical</option>
+                                            <option value="correspondence">Correspondence</option>
+                                            <option value="chess960">Chess960</option>
+                                            <option value="crazyhouse">Crazyhouse</option>
+                                            <option value="antichess">Antichess</option>
+                                            <option value="atomic">Atomic</option>
+                                            <option value="horde">Horde</option>
+                                            <option value="kingOfTheHill">KingOfTheHill</option>
+                                            <option value="racingKings">RacingKings</option>
+                                            <option value="threeCheck">ThreeCheck</option>
+                                            <!-- Add other perf types if needed -->
+                                        </select>
+                                        <button type="submit" class="btn btn-outline-secondary"><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> <!-- End Matchmaking Card -->
+
+                        <!-- Tournament Controls -->
+                        <div class="card mb-3">
+                           <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-trophy me-2"></i>Tournament</h5>
+                                <form id="tournament-form">
+                                    <div class="row g-2">
+                                        <div class="col-md-12">
+                                            <label for="tournament-id" class="form-label visually-hidden">Tournament ID</label>
+                                            <input type="text" class="form-control form-control-sm" id="tournament-id" placeholder="Tournament ID" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="tournament-team" class="form-label visually-hidden">Team ID</label>
+                                            <input type="text" class="form-control form-control-sm" id="tournament-team" placeholder="Team ID (Optional)">
+                                        </div>
+                                         <div class="col-md-6">
+                                             <label for="tournament-password" class="form-label visually-hidden">Password</label>
+                                            <input type="password" class="form-control form-control-sm" id="tournament-password" placeholder="Password (Optional)">
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-success btn-sm me-2"><i class="fas fa-sign-in-alt me-1"></i> Join</button>
+                                        <button type="button" id="leave-tournament-btn" class="btn btn-danger btn-sm"><i class="fas fa-sign-out-alt me-1"></i> Leave Current ID</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> <!-- End Tournament Card -->
+
+                        <!-- Blacklist/Whitelist -->
+                        <div class="card mb-3">
+                             <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-users-cog me-2"></i>User Lists (Temporary)</h5>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <form id="blacklist-form">
+                                            <div class="input-group input-group-sm">
+                                                <label for="blacklist-username" class="input-group-text"><i class="fas fa-user-slash"></i></label>
+                                                <input type="text" class="form-control" id="blacklist-username" placeholder="Blacklist User" required>
+                                                <button type="submit" class="btn btn-outline-danger" title="Add to temporary blacklist"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form id="whitelist-form">
+                                            <div class="input-group input-group-sm">
+                                                 <label for="whitelist-username" class="input-group-text"><i class="fas fa-user-check"></i></label>
+                                                <input type="text" class="form-control" id="whitelist-username" placeholder="Whitelist User" required>
+                                                <button type="submit" class="btn btn-outline-success" title="Add to temporary whitelist"><i class="fas fa-plus"></i></button>
+                                            </div>
+                                        </form>
+                                     </div>
+                                </div>
+                                <small class="text-muted d-block mt-1">Note: These lists are temporary and reset on bot restart. Use config.yml for permanent lists.</small>
+                            </div>
+                        </div> <!-- End User Lists Card -->
+
+                        <!-- Other Controls -->
+                         <div class="card mb-3">
+                             <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-cog me-2"></i>Other</h5>
+                                <button id="clear-queue-btn" class="btn btn-warning btn-sm me-2"><i class="fas fa-eraser me-1"></i> Clear Challenge Queue</button>
+                                <!-- Quit button moved to server controls or less prominent place -->
+                             </div>
+                         </div> <!-- End Other Card -->
+
+                    </div> <!-- End card-body -->
+                     <div class="card-footer">
+                         <button id="quit-btn" class="btn btn-danger btn-sm float-end"><i class="fas fa-power-off me-1"></i> Stop Bot & Server</button>
+                     </div>
+                </div> <!-- End main actions card -->
+            </div> <!-- End Control Panel Column -->
+
+            <!-- Log Output Column -->
+            <div class="col-lg-7">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white"><i class="fas fa-terminal me-2"></i>Log Output</div>
+                    <div class="card-body p-0"> <!-- Remove padding for pre -->
+                        <pre id="log-output" class="log-output-area m-0"></pre> <!-- Remove margin -->
+                    </div>
+                </div>
+            </div> <!-- End Log Output Column -->
+        </div> <!-- End row -->
+    </div> <!-- End container-fluid -->
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Socket.IO Client -->
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx2UJdSvyG/KVbD6IM5sm7+EypP5丁P4u+saAHhMuYGlzfRChdR/KdB" crossorigin="anonymous"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
