@@ -2,12 +2,13 @@ FROM python:3.13
 COPY . .
 
 RUN apt-get update && apt-get upgrade -y
+RUN apt-get install aria2c -y
 RUN mv config.yml.default config.yml
 RUN pip --no-cache-dir install -U pip && pip --no-cache-dir install -r requirements.txt
 
-RUN curl -sSL https://raw.githubusercontent.com/ppigazzini/stockfish-downloader/main/posix_helper.sh | sh -s
+RUN aria2c https://github.com/official-stockfish/Stockfish/releases/download/sf_17/stockfish-ubuntu-x86-64-avx512.tar
 RUN tar -xf stockfish-*.tar && rm stockfish-*.tar
-RUN mv stockfish/stockfish-* engines/stockfish && rm -r stockfish
+RUN mv stockfish/stockfish-* engines/stockfish.17 && rm -r stockfish
 
 # Fairy-Stockfish - Depending on your CPU it may be necessary to pick a binary other than bmi2
 # To use Fairy-Stockfish, uncomment the following lines and adjust config.yml.default accordingly
@@ -22,4 +23,4 @@ RUN mv stockfish/stockfish-* engines/stockfish && rm -r stockfish
 # RUN wget "https://drive.google.com/u/0/uc?id=1Tiq8FqSu7eiekE2iaWQzSdJPg-mhvLzJ&export=download" -O engines/racingkings-636b95f085e3.nnue
 
 # Add the "--matchmaking" flag to start the matchmaking mode.
-CMD python user_interface.py
+CMD python user_interface.py 
