@@ -1,5 +1,9 @@
 # Overview
 
+This is A Frok By Me
+i Edit it i replaced a terminal interface with a web interface!
+i also make the token bot lichess better by make it into secret!
+
 **BotLi** is a bot for Lichess. It connects any [UCI](https://backscattering.de/chess/uci/) engine with the [Lichess Bot API](https://lichess.org/api#tag/Bot).
 
 It has a customizable support of Polyglot opening books, a variety of supported online opening books and an online endgame tablebase. It can query local Syzygy and Gaviota endgame tablebases.
@@ -26,7 +30,7 @@ python -m pip install -r requirements.txt
 - Create an account for your bot on [Lichess.org](https://lichess.org/signup).
 - **NOTE: If you have previously played games on an existing account, you will not be able to use it as a bot account.**
 - Once your account has been created and you are logged in, [create a personal OAuth2 token with the "Play games with the bot API" ('bot:play') scope](https://lichess.org/account/oauth/token/create?scopes[]=bot:play&description=BotLi) selected and a description added.
-- A `token` will be displayed. Store this in the `config.yml` file as the `token` field.
+- For Token Just Put it into Secret Called TOKEN-LICHESS
 - **NOTE: You won't see this token again on Lichess, so do save it.**
 
 ## Setup Engine
@@ -75,52 +79,58 @@ opening_books:
 
 ## Interactive mode
 
-In this mode the bot is controlled by commands entered into the console.
+In this mode the bot is controlled by web interface!.
 
 ### Start
 
 To start the bot, type:
 
 ```bash
-python user_interface.py
+python web_interface.py
 ```
 The bot automatically accepts challenges. Which challenges are accepted is defined in the config in the section `challenge`.
 
-To see all commands, type:
+To see all commands:
 ```
-help
+just go to http://127.0.0.1:7860
 ```
 
 ### Matchmaking
 
-To challenge other players with similar ratings, type:
+To challenge other players with similar ratings:
 ```
-matchmaking
+just go to http://127.0.0.1:7860
+and do it
 ```
 
-Change the settings in `matchmaking` in the config to change how this bot challenges other players. The bot will pause matchmaking for incoming challenges. To exit the matchmaking mode type:
+Change the settings in `matchmaking` in the config to change how this bot challenges other players. The bot will pause matchmaking for incoming challenges. To exit the matchmaking mode :
 ```
-stop
+just go to http://127.0.0.1:7860
+and do it
 ```
 
 ### Tournament
 
 BotLi can participate in tournaments, it joins them automatically after the tournament has begun and leaves them when BotLi is terminated or the tournament is over. During participation in a tournament, one game slot is always reserved for each tournament so that the games can be played without disruption.
-To join a tournament, type:
+To join a tournament:
 ```
-tournament TOURNAMENT_ID [TEAM_ID] [PASSWORD]
+just go to http://127.0.0.1:7860
+and do it
 ```
 
-Where TOURNAMENT_ID is replaced by the ID of the tournament, which is easiest to take from the URL of the tournament. TEAM_ID and PASSWORD are optional, the TEAM_ID is taken from the URL of the team page and the PASSWORD is provided by the tournament organizer. To leave a tournament, type:
+Where TOURNAMENT_ID is replaced by the ID of the tournament, which is easiest to take from the URL of the tournament. TEAM_ID and PASSWORD are optional, the TEAM_ID is taken from the URL of the team page and the PASSWORD is provided by the tournament organizer. To leave a tournament:
 ```
-leave TOURNAMENT_ID
+just go to http://127.0.0.1:7860
+and do it
 ```
 
 ### Exiting
 
-To exit the bot completely, type:
+To exit the bot completely:
 ```
-quit
+Ctrl + C
+if didnt work Enter:
+Ctrl + D
 ```
 
 The bot will always wait until the current game is finished.
@@ -134,7 +144,7 @@ This mode is used automatically when BotLi is used without an interactive termin
 To let the bot challenge other bots in non interactive mode, start it like this:
 
 ```bash
-python user_interface.py --matchmaking
+python web_interface.py --matchmaking
 ```
 
 **CAUTION**: Lichess will rate limit you if you let matchmaking run too long without adjusting the delay accordingly.
@@ -143,7 +153,7 @@ python user_interface.py --matchmaking
 
 To join a tournament in non interactive mode, start it like this:
 ```bash
-python user_interface.py --tournament TOURNAMENT_ID --team TEAM_ID --password PASSWORD
+python web_interface.py --tournament TOURNAMENT_ID --team TEAM_ID --password PASSWORD
 ```
 
 ## Upgrade to Bot account
@@ -154,7 +164,7 @@ In non interactive mode the `--upgrade` flag must be set at start.
 
 
 ```bash
-python user_interface.py --upgrade
+python web_interface.py --upgrade
 ```
 
 The account **cannot have played any game** before becoming a Bot account. The upgrade is **irreversible**. The account will only be able to play as a Bot.
