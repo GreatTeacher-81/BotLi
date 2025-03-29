@@ -706,7 +706,7 @@ if __name__ == '__main__':
     # Argument parsing similar to the original script
     parser = argparse.ArgumentParser(description="BotLi Web Interface")
     parser.add_argument('--config', '-c', default='config.yml', type=str, help='Path to config.yml.')
-    parser.add_argument('--host', default='127.0.0.1', type=str, help='Host to bind the web server to.')
+    parser.add_argument('--host', default='0.0.0.0', type=str, help='Host to bind the web server to.')
     parser.add_argument('--port', default=7860, type=int, help='Port to run the web server on.')
     # Add args to control initial bot state if desired
     parser.add_argument('--matchmaking', '-m', action='store_true', help='Start matchmaking automatically when the bot starts.')
