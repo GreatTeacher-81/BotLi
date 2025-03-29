@@ -17,7 +17,6 @@ If you have found a bug, please [create an issue](https://github.com/Torom/BotLi
 - **NOTE: Only Python 3.11 or later is supported!**
 - Download the repo into BotLi directory: `git clone https://github.com/Torom/BotLi.git`
 - Navigate to the directory in cmd/Terminal: `cd BotLi`
-- Copy `config.yml.default` to `config.yml`
 
 Install all requirements:
 ```bash
