@@ -1,15 +1,15 @@
-token: "XXXXXXXXXXXXXXXXXXXXXXXX"         # Lichess OAuth2 Token.
+token: "Automatically-Applyed-Here-if-U-Have-Been-Type-it-in-Environment-Variables-TOKEN-LICHESS"         # Lichess OAuth2 Token.
 
 engines:
   standard:                               # Engine used for standard chess and when no suitable special engine is configured.
     dir: "./engines"                      # Directory containing the engine.
-    name: "stockfish"                     # Binary name of the engine to use.
+    name: "stockfish.17"                     # Binary name of the engine to use.
     ponder: true                          # Think on opponent's time.
     silence_stderr: false                 # Suppresses stderr output.
     move_overhead_multiplier: 1.0         # Increase if your bot flags games too often. Default move overhead is 1 second per 1 minute initital time.
     uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
-      Threads: 4                          # Max CPU threads the engine can use.
-      Hash: 256                           # Max memory (in megabytes) the engine can allocate.
+      Threads: 8                          # Max CPU threads the engine can use.
+      Hash: 10240                           # Max memory (in megabytes) the engine can allocate.
       Move Overhead: 100                  # Increase if your bot flags games too often.
 # variants:                               # Engine used for variants when no suitable special engine is configured.
 #   dir: "./engines"                      # Directory containing the engine.
@@ -110,7 +110,7 @@ online_moves:
     timeout: 3                            # Time the server has to respond.
 
 offer_draw:
-  enabled: true                           # Activate whether the bot should offer draw.
+  enabled: false                           # Activate whether the bot should offer draw.
   score: 10                               # If the absolute value of the score is less than or equal to this value, the bot offers/accepts draw (in cp)
   consecutive_moves: 10                   # How many moves in a row the absolute value of the score has to be below the draw value
   min_game_length: 35                     # Earliest move in which draw is offered.
@@ -124,15 +124,15 @@ resign:
 
 challenge:                                # Incoming challenges. (Commenting allowed)
   concurrency: 1                          # Number of games to play simultaneously.
-  bullet_with_increment_only: false       # Whether bullet games against BOTs should only be accepted with increment.
-# min_increment: 0                        # Minimum amount of increment to accept a challenge.
+  bullet_with_increment_only: true       # Whether bullet games against BOTs should only be accepted with increment.
+  min_increment: 1                        # Minimum amount of increment to accept a challenge.
 # max_increment: 180                      # Maximum amount of increment to accept a challenge.
 # min_initial: 0                          # Minimum amount of initial time to accept a challenge.
 # max_initial: 315360000                  # Maximum amount of initial time to accept a challenge.
   variants:                               # Chess variants to accept (https://lichess.org/variant).
     - standard
     - chess960
-#   - fromPosition
+    - fromPosition
 #   - antichess
 #   - atomic
 #   - crazyhouse
@@ -142,8 +142,8 @@ challenge:                                # Incoming challenges. (Commenting all
 #   - threeCheck
   time_controls:                          # Speeds or time controls in initial_minutes+increment_seconds format to accept.
     - bullet
-    - blitz
-    - rapid
+#   - blitz
+#   - rapid
 #   - classical
 #   - 25+0
   bot_modes:                              # Game modes to accept against BOTs.
@@ -180,9 +180,9 @@ messages:
   #   {cpu} to insert CPU information
   #   {ram} to insert RAM size
   # Any other words in curly braces will be removed.
-  greeting: "Hey, I'm running {engine}. Good luck! Type !help for a list of commands." # Message sent to the opponent at the beginning of a game.
+  greeting: "Hey, I'm running Stockfish 17. Good luck! Type !help for a list of commands." # Message sent to the opponent at the beginning of a game.
   goodbye: "Good game, see you next time."                                             # Message sent to the opponent after the end of a game.
-  greeting_spectators: "Hey, I'm running {engine}. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
+  greeting_spectators: "Hey, I'm running Stockfish 17. Type !help for a list of commands." # Message sent to the spectators at the beginning of a game.
   goodbye_spectators: "Thanks for watching."                                           # Message sent to the spectators after the end of a game.
 
 # whitelist:                              # List of users whose challenges are always accepted.
@@ -194,4 +194,4 @@ messages:
 #   - Username2
 
 books:                                    # Names of the opening books (to be used above in the opening_books section) and paths to the opening books.
-  DefaultBook: "/path/to/DefaultBook.bin"
+  DefaultBook: "./open.bin"
