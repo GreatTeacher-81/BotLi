@@ -1,0 +1,83 @@
+/* General body styling */
+body {
+    padding-top: 56px; /* Adjust based on navbar height */
+    padding-bottom: 20px;
+    background-color: #f0f2f5; /* Light grey background */
+}
+
+/* Navbar status badges */
+#connection-status .badge,
+#bot-status .badge,
+#matchmaking-status .badge {
+    font-size: 0.85em;
+    vertical-align: middle;
+}
+
+/* Log output styling */
+.log-output-area {
+    height: calc(100vh - 150px); /* Responsive height, adjust as needed */
+    overflow-y: scroll;
+    background-color: #1e1e1e; /* Dark background for logs */
+    color: #d4d4d4; /* Light grey text */
+    border: 1px solid #333;
+    border-radius: 0.25rem;
+    padding: 15px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace; /* Monospace font */
+    font-size: 0.9em;
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word;
+    line-height: 1.5;
+}
+
+/* Log message styling */
+.log-output-area div {
+    margin-bottom: 2px; /* Small spacing between lines */
+    border-left: 3px solid transparent; /* Space for indicator color */
+    padding-left: 5px;
+}
+
+/* Timestamp styling */
+.log-timestamp {
+    color: #888; /* Dim timestamp */
+    margin-right: 8px;
+}
+
+/* Log level specific colors */
+.log-debug { color: #808080; border-left-color: #808080; } /* Grey */
+.log-info { color: #bbbbbb; border-left-color: #555; } /* Lighter Grey / Default */
+.log-success { color: #4CAF50; border-left-color: #4CAF50; } /* Green */
+.log-warning { color: #FFC107; border-left-color: #FFC107; } /* Yellow */
+.log-error { color: #F44336; border-left-color: #F44336; font-weight: bold; } /* Red */
+.log-game { color: #9C27B0; border-left-color: #9C27B0; font-style: italic;} /* Purple */
+.log-challenge { color: #FF9800; border-left-color: #FF9800; } /* Orange */
+
+/* Style cards for better visual separation */
+.card {
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+/* Make form labels slightly less visually hidden for context */
+/* form label:not(.visually-hidden) {
+    font-size: 0.85em;
+    margin-bottom: 0.2rem;
+    color: #555;
+} */
+
+/* Ensure buttons in forms align nicely */
+.input-group .btn {
+    height: calc(1.5em + .5rem + 2px); /* Match sm input height */
+}
+
+/* Add subtle hover effects */
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Style required fields */
+input:required, select:required {
+   /* border-left: 3px solid #0d6efd; */ /* Optional: visual indicator */
+}
