@@ -500,12 +500,4 @@ class Config:
 
     @staticmethod
     def _get_version() -> str:
-        try:
-            output = subprocess.check_output(['git', 'show', '-s', '--date=format:%Y%m%d',
-                                              '--format=%cd', 'HEAD'], stderr=subprocess.DEVNULL)
-            commit_date = output.decode('utf-8').strip()
-            output = subprocess.check_output(['git', 'rev-parse', 'HEAD'], stderr=subprocess.DEVNULL)
-            commit_SHA = output.decode('utf-8').strip()[:7]
-            return f'{commit_date}-{commit_SHA}'
-        except (FileNotFoundError, subprocess.CalledProcessError):
-            return 'nogit'
+    return 'unknown' 
