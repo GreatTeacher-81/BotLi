@@ -498,6 +498,6 @@ class Config:
                                messages_section.get('greeting_spectators'),
                                messages_section.get('goodbye_spectators'))
 
-  @staticmethod
-  def _get_version() -> str:
-      return 'unknown'
+    @staticmethod
+    def _get_version() -> str:
+        return 'unknown'
