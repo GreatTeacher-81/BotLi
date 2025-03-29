@@ -8,8 +8,8 @@ engines:
     silence_stderr: false                 # Suppresses stderr output.
     move_overhead_multiplier: 0.7         # Increase if your bot flags games too often. Default move overhead is 1 second per 1 minute initital time.
     uci_options:                          # Arbitrary UCI options passed to the engine. (Commenting allowed)
-      Threads: 8                          # Max CPU threads the engine can use.
-      Hash: 500                           # Max memory (in megabytes) the engine can allocate.
+      Threads: 2                         # Max CPU threads the engine can use.
+      Hash: 1024                           # Max memory (in megabytes) the engine can allocate.
       Move Overhead: 30                  # Increase if your bot flags games too often.
 # variants:                               # Engine used for variants when no suitable special engine is configured.
 #   dir: "./engines"                      # Directory containing the engine.
