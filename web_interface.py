@@ -157,11 +157,15 @@ async def run_bot_async():
     """The main async function that sets up and runs the BotLi core components."""
     global bot_context
     config = bot_context["config"]
+async def run_bot_async():
+    """The main async function that sets up and runs the BotLi core components."""
+    global bot_context
+    config = bot_context["config"]
 
     try:
         # Initialize API within the bot's event loop
         api = API(config)
-        await api.create_session()
+        # await api.create_session() # <--- THIS LINE IS REMOVED
         bot_context["api"] = api
 
         logger.info(f'{LOGO} {config.version}')
