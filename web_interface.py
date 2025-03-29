@@ -541,7 +541,7 @@ def handle_command(data: dict):
                     initial_time_str, increment_str = time_control.split('+', 1)
                     initial_time = int(float(initial_time_str) * 60)
                     increment = int(increment_str)
-                     if initial_time <= 0 or increment < 0: raise ValueError("Time/increment must be non-negative, initial time > 0")
+                    if initial_time <= 0 or increment < 0: raise ValueError("Time/increment must be non-negative, initial time > 0")
 
                     rated = params.get('rated', True)
 
