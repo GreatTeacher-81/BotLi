@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import eventlet
+eventlet.monkey_patch() # MUST BE VERY FIRST after imports that don't conflict
+
+# --- Now other imports can follow ---
 import argparse
 import asyncio
 import logging
@@ -6,18 +10,13 @@ import os
 import signal
 import sys
 import threading
-import time
+import time 
 from enum import Enum
 from typing import TypeVar, Any, Callable, Optional
 
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
-import eventlet
-
-# --- Crucial: Monkey patch for eventlet async mode ---
-# This allows other libraries (like requests used by aiohttp indirectly)
-# to cooperate with eventlet's concurrency model.
-eventlet.monkey_patch()
+# ...
 
 # --- Import Existing BotLi Modules ---
 # Ensure these imports work based on your project structure
