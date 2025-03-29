@@ -2,7 +2,7 @@ FROM python:3.13
 COPY . .
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install aria2c -y
+RUN apt-get install aria2 -y
 RUN mv config.yml.default config.yml
 RUN pip --no-cache-dir install -U pip && pip --no-cache-dir install -r requirements.txt
 
