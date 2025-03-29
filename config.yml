@@ -1,4 +1,4 @@
-token: "Automatically-Applyed-Here-if-U-Have-Been-Type-it-in-Environment-Variables-TOKEN-LICHESS"         # Lichess OAuth2 Token.
+token: "Automatically-Applyed-Here-if-U-Have-Been-Type-it-in-Environment-Variables-TOKEN_LICHESS"         # Lichess OAuth2 Token.
 
 engines:
   standard:                               # Engine used for standard chess and when no suitable special engine is configured.
